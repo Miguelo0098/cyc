@@ -26,8 +26,9 @@ disp(' ');
 
 e = 65537;
 
-if e < fiden && gcd(e, fiden) == 1
+if e >= fiden || gcd(e, fiden) != 1
     
+end
 
 
 end
