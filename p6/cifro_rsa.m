@@ -21,11 +21,15 @@ end
 
 cifras = letra2numeros(texto);
 
-tama = round(n/10) - 1;
+digitos = 0;
+number = n;
 
-if tama >= length(cifras)
-    tama = round(length(cifras)/5)
+while number >= 1
+    number = number/10;
+    digitos = digitos + 1;
 end
+
+tama = digitos - 1;
 
 bloques = prepa_num_cifrar(tama, cifras);
 
