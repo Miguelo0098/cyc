@@ -24,15 +24,11 @@ cifras = letra2numeros(texto);
 tama = round(n/10) - 1;
 
 if tama >= length(cifras)
-    tama = round(length(cifras)/5);
+    tama = round(length(cifras)/5)
 end
 
 bloques = prepa_num_cifrar(tama, cifras);
 
-cifrado = zeros(1, length(bloques));
-
-for index = 1:length(bloques)
-    cifrado(index) = potencia(bloques(index), e, n);
-end
+cifrado = cifro_rsa_num(e,n,bloques);
 
 end
