@@ -11,6 +11,15 @@ function doble = letra2numeros(texto)
 % Salida: doble: cadena numérica formada por los números 
 %                asociados a cada letra del texto.
 
+doble = '';
+values = letranumero(texto);
 
+for index = 1:length(values)
+    if values(index) < 10
+        doble = [doble '0' int2str(values(index))];
+    else
+        doble = [doble int2str(values(index))];
+    end
+end
 
 end

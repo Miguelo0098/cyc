@@ -6,6 +6,9 @@ function [cpublica, cprivada] = genero_clave()
 % Programa que genera las claves públicas y privadas que 
 % se necesitan para el cifrado con RSA
 
+cpublica = [0 0];
+cprivada = [0 0];
+
 p = input('Introduzca el valor del primo p: ');
 q = input('Introduzca el valor del primo q: ');
 disp(' ');
