@@ -14,7 +14,7 @@ q = input('Introduzca el valor del primo q: ');
 disp(' ');
 
 if any(mod([p q],1) ~= 0)
-    disp('ERROR: No se puede realizar el intercambio, fin del programa');
+    disp('ERROR: No se puede generar claves, fin del programa');
     return;
 end
 
