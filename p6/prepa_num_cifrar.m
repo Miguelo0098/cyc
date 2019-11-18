@@ -41,7 +41,7 @@ bloque = transpose(bloque);
 blo = zeros(1, len/tama);
 
 for index2 = 1:len/tama
-    blo(index2) = str2num(bloque(index2,:));
+    blo(index2) = str2double(bloque(index2,:));
 end
     
 end
