@@ -31,12 +31,12 @@ tama = digitos - 1;
 
 bloque_string = '';
 
+disp(bloque_numero);
+
 for index = 1:length(bloque_numero)
     string = int2str(bloque_numero(index));
-    if length(string) < tama
-        for index2 = 1:(tama - length(string))
-            string = ['0' string];
-        end
+    while length(string) < tama
+        string = ['0' string];
     end
     bloque_string = [bloque_string string];
 end
@@ -44,10 +44,10 @@ end
 len = length(bloque_string);
 
 if mod(len, 2) == 1
-    bloque_string = extractAfter(bloque_string, len - 1);
+    bloque_string = extractBefore(bloque_string, len);
 end
 
-bloque_string = reshape(bloque_string, [2,length(bloque_string)/2]);
+bloque_string = reshape(bloque_string, 2,[]);
 bloque_string = transpose(bloque_string);
 
 bloque_char = [];
@@ -56,7 +56,7 @@ len = size(bloque_string);
 
 for index = 1:len(1)
     if ~strcmp(bloque_string(index,:), '30')
-       bloque_char = [bloque_char str2double(bloque_string(index,:))];
+        bloque_char = [bloque_char str2double(bloque_string(index,:))];
     end
 end
 

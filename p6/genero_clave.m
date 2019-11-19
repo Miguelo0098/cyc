@@ -29,9 +29,13 @@ disp(' ');
 
 e = 65537;
 
-if e >= fiden || gcd(e, fiden) ~= 1
-    while gcd(e, fiden) ~= 1
-        e = randi(fiden - 1);
+if any([e >= fiden gcd(e, fiden) ~= 1])
+    found = 0;
+    while found == 0
+        e = randi(fiden - 2) + 1;
+        if gcd(e, fiden) == 1
+            found = 1;
+        end
     end
 end
 

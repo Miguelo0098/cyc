@@ -1,15 +1,13 @@
-function newbloque = bloque_translator(oldn,newn, oldbloque)
-%bloque_translator - Description
-%
-% Syntax: newbloque = bloque_translator(oldn,newn,oldbloque)
-%
-% Funcion que traduce el tamaño de un bloque a otro nuevo en 
-% funcion de la n nueva con la que se vaya a cifrar en RSA
-%
-% Entradas: oldn: antigua n que determina el tamaño de oldbloque
-%           newn: nueva n que determina el tamaño de newbloque
-%           oldbloque: antiguo bloque a transformar
-%
-% Salida: newbloque: nuevo bloque listo para cifrar
-    
+function newbloque = bloque_translator(oldtama,newtama, oldbloque, modo)
+
+bloque_string = bloque_to_string(oldtama, oldbloque);
+
+if modo == 1
+    len = length(bloque_string);
+    cut = mod(len, newtama);
+    bloque_string = extractBefore(bloque_string, (len - cut) + 1);
+end
+
+newbloque = prepa_num_cifrar(newtama, bloque_string);
+
 end

@@ -17,10 +17,10 @@ if any(mod([d, n, cifrado_numero],1) ~= 0)
     return;
 end
 
-descifro_num = zeros(1, length(cifrado_numero));
+descifro_num = [];
 
 for index = 1:length(cifrado_numero)
-    descifro_num(index) = potencia(cifrado_numero(index), d, n);
+    descifro_num = [descifro_num potencia(cifrado_numero(index), d, n)];
 end
     
 end
