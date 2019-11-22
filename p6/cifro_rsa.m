@@ -19,8 +19,10 @@ if any(mod([e,n],1) ~= 0)
     return;
 end
 
+% Pasamos texto a cifras
 cifras = letra2numeros(texto);
 
+% contamos el numero de digitos
 digitos = 0;
 number = n;
 
@@ -29,10 +31,13 @@ while number >= 1
     digitos = digitos + 1;
 end
 
+% obtenemos el tamaño como digitos(n) - 1
 tama = digitos - 1;
 
+% preparamos los bloques
 bloques = prepa_num_cifrar(tama, cifras);
 
+% ciframos los bloques
 cifrado = cifro_rsa_num(e,n,bloques);
 
 end

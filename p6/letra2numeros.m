@@ -12,9 +12,12 @@ function doble = letra2numeros(texto)
 %                asociados a cada letra del texto.
 
 doble = '';
+% Pasamos los caracteres a numeros
 values = letranumero(texto);
 
+
 for index = 1:length(values)
+    % Si solo tiene un digito, añadimos un cero delante
     if values(index) < 10
         doble = [doble '0' int2str(values(index))];
     else

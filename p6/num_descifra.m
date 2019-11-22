@@ -19,6 +19,7 @@ end
 alfabeto = 'abcdefghijklmnnopqrstuvwxyz';
 alfabeto(15) = char(241);
 
+% obtenemos el tamaño de los bloques
 digitos = 0;
 number = n;
 
@@ -33,6 +34,7 @@ bloque_string = '';
 
 disp(bloque_numero);
 
+% Añadimos ceros para que tengan la longitud correspondiente
 for index = 1:length(bloque_numero)
     string = int2str(bloque_numero(index));
     while length(string) < tama
@@ -43,10 +45,12 @@ end
 
 len = length(bloque_string);
 
+% Quitamos el posible residuo para agrupar de dos en dos
 if mod(len, 2) == 1
     bloque_string = extractBefore(bloque_string, len);
 end
 
+% agrupamos de dos en dos
 bloque_string = reshape(bloque_string, 2,[]);
 bloque_string = transpose(bloque_string);
 
@@ -54,6 +58,8 @@ bloque_char = [];
 
 len = size(bloque_string);
 
+
+% Eliminamos los posibles 30 
 for index = 1:len(1)
     if ~strcmp(bloque_string(index,:), '30')
         bloque_char = [bloque_char str2double(bloque_string(index,:))];
@@ -62,6 +68,7 @@ end
 
 desci = '';
 
+% Pasamos los digitos a caracteres
 for i = 1:length(bloque_char)
     desci = [desci, alfabeto(bloque_char(i)+1)]; % pasamos los numeros a cadena de caracteres
 end

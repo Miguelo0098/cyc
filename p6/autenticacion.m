@@ -6,12 +6,14 @@ function success = autenticacion()
 % Funcion que demuestra el funcionamiento de 
 % autenticacion de firma mediante RSA
 
+% Generamos claves A
 pa = input('A: Introduzca el valor del primo p: ');
 qa = input('A: Introduzca el valor del primo q: ');
 disp(' ');
 
 [cpubla, cpriva] = genero_clave_mute(pa,qa);
 
+% Generamos claves B
 pb = input('B: Introduzca el valor del primo p: ');
 qb = input('B: Introduzca el valor del primo q: ');
 disp(' ');
@@ -52,6 +54,7 @@ cif_mens = cifro_rsa(eb, nb, mensaje);
 
 cif_firma_da = cifro_rsa(da, na, mensajefirma);
 
+% Obtenemos tamaños de na y nb - 1
 digitos = 0;
 number = na;
 
@@ -72,6 +75,7 @@ end
 
 tamab = digitos - 1;
 
+% funcion auxiliar para transformar los bloques
 cif_firma_da_trans = bloque_translator(tamaa,tamab,cif_firma_da, 0);
 
 cif_firma_da_eb = cifro_rsa_num(eb,nb,cif_firma_da_trans);
@@ -89,6 +93,7 @@ mensaje = descifro_rsa(db,nb, cif_mens);
 
 cif_firma_da = descifro_rsa_num(db,nb, cif_firma_da_eb);
 
+% Funcion auxiliar para destransformar los bloques
 cif_firma_da_trans = bloque_translator(tamab,tamaa,cif_firma_da, 1);
 
 firma = descifro_rsa(ea,na,cif_firma_da_trans);

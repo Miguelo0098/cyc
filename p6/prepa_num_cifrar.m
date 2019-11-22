@@ -15,6 +15,7 @@ function blo = prepa_num_cifrar(tama, bloque)
 % Salida: blo: vector formado por los numeros que se corresponden 
 %              con cada uno de los bloques.
 
+% Control de entradas
 if mod(tama,1) ~= 0
     return;
 end
@@ -22,6 +23,7 @@ end
 len = length(bloque);
 fill = mod(len, tama);
 
+% Rellenamos con 30 y/o 0 el final de la cadena
 if fill ~= 0
     fill = tama - fill;
     for index = 1:round(fill/2)
@@ -35,13 +37,15 @@ end
 
 len = length(bloque);
 
+% pasamos la cadena a un "vector de cadenas" (técnicamente es una matriz de char cuyas filas se leen como cadenas)
 bloque = reshape(bloque, [tama, len/tama]);
 bloque = transpose(bloque);
 
 blo = zeros(1, len/tama);
 
+% pasamos cada cadena a numeros
 for index2 = 1:len/tama
     blo(index2) = str2double(bloque(index2,:));
 end
-    
+
 end
