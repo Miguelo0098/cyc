@@ -31,7 +31,7 @@ mat = A;
 
 while ~all(mat == I)
     n = n + 1;
-    mat = mod(mat*A, m)
+    mat = mod(mat*A, m);
 end
 
 end
