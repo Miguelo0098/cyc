@@ -19,6 +19,7 @@ end
 
 descifro_num = [];
 
+% Empleamos la formula para descifrar el texto
 for index = 1:length(cifrado_numero)
     descifro_num = [descifro_num potencia(cifrado_numero(index), d, n)];
 end

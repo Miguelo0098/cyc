@@ -18,6 +18,7 @@ end
 
 cifrado = zeros(1, length(blo));
 
+% aplicamos la formula para cifrar con potenciacion rapida
 for index = 1:length(blo)
     cifrado(index) = potencia(blo(index), e, n);
 end
