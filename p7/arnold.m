@@ -19,7 +19,7 @@ elseif option == 2
     imdata = imread(foto);
 
     imsize = size(imdata);
-    n = min(imsize);
+    n = min([imsize(1) imsize(2)]);
 
     Asize = size(A);
 
