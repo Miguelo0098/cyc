@@ -50,6 +50,6 @@ imshow(imdata, []);
 subplot(2,1,2)
 imshow(newimdata, []);
 
-imwrite(newimdata, 'nueva.bmp');
+imwrite(newimdata, 'nueva.bmp');    
 
 end
