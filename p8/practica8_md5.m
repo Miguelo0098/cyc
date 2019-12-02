@@ -27,7 +27,10 @@ t = fix(abs(sin(1:64)) .* m)
 % B=89 ab cd ef --> ef cd ab 89 
 % C=fe dc ba 98 --> 98 ba dc fe
 % D=76 54 32 10 --> 10 32 54 76
-
+A = '67452301';
+B = 'efcdab89';
+C = '98badcfe';
+D = '10325476';
 
 
 
@@ -43,18 +46,34 @@ bytelen = numel(mensaje) %numero de elementos del vector
 % CON 128 (10000000) Y LOS CEROS NECESARIOS PARA QUE EL NUMERO DE BYTES SEA 
 % CONGRUENTE CON 56 MODULO 64
 
+bytelenmod = mod(bytelen, 64);
+bytes_to_add = mod(56 - bytelenmod, 64);
+if bytes_to_add == 0
+    bytes_to_add = 64;
+end
+for index = 1:bytes_to_add
+    if index == 1
+        mensaje = [mensaje 128];
+        continue;
+    end
+    mensaje = [mensaje 0];
+end
 
 
 
 % PASO 2.2.- COMO CADA PALABRA VIENE FORMADA POR 4 BYTES, HACEMOS UNA MATRIZ DE 
 % 4 FILAS CON LOS BYTES DEL MENSAJE, ASI CADA COLUMNA SERA UNA PALABRA 
 
-
+mensaje = reshape(mensaje, 4, []);
 
 
 % PASO 2.3.- CONVERTIMOS CADA COLUMNA A ENTEROS DE 32 BITS, little endian.
 
-
+mensaje = flipud(mensaje);
+len = size(mensaje);
+for index = 1:len(2)
+    
+end
 
 
 % PASO 2.4.- COMPLETAMOS CON LA LONGITUD DEL MENSAJE ORIGINAL COMO UN ENTERO 
