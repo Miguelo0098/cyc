@@ -13,6 +13,7 @@ function n = pote(A, m)
 
 Asize = size(A);
 
+% Comprobaciones de la matriz
 if any(Asize ~= 2)
     disp('ERROR: no es cuadrada');
     return;
@@ -29,6 +30,7 @@ I = [1 0; 0 1];
 
 mat = A;
 
+% Mientras la matriz no sea la matriz identidad, se va multiplicando sucesivamente guardando las iteraciones en n
 while ~all(mat == I)
     n = n + 1;
     mat = mod(mat*A, m);

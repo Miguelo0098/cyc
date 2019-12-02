@@ -13,9 +13,11 @@ function arnold(foto, A)
 option = input('Introduce un 1 si quieres desordenar, o un 2 si quieres ordenar: ');
 
 if option == 1
+    %Desordenamos la imagen directamente
     desorden_pixel(foto, A);
     
 elseif option == 2
+    % Comprobamos que la matriz tenga inverso y realizamos la matriz inversa
     imdata = imread(foto);
 
     imsize = size(imdata);
@@ -44,6 +46,7 @@ end
 imdata = getappdata(gcf, 'imdata');
 newimdata = getappdata(gcf, 'newImData');
 
+% Se imprimen las imagenes
 figure(1);
 subplot(2,1,1)
 imshow(imdata, []);

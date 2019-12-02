@@ -10,6 +10,7 @@ function potencia = arnold_02(foto, A)
 %
 % Salida: potencia: el numero de veces que hemos realizado la transformacion de forma sucesiva
 
+% Lectura y comprobacion de las fotos
 imdata = imread(foto);
 
 imsize = size(imdata);
@@ -28,11 +29,12 @@ if inv_modulo(A, n) == 0
 end
 
 option = input('Introduce un 1 si quieres desordenar la imagen hasta volver a la original, o un 2 si quieres desordenarla hasta una determinada potencia: ');
-
+% para la opcion 1, potencia es igual a tantas veces como para que la imagen vuelva a la original
 if option == 1
     potencia = pote (A,n);
 
 elseif option == 2
+    %potencia es el valor que escoja por terminal
     potencia = -1;
     while ~all([mod(potencia,1) == 0, potencia > 0])
         potencia = input('¿cuantas transformaciones quieres hacer? ');
@@ -44,6 +46,8 @@ else
 end
 
 mat = A;
+
+% Se realizan sucesivos desordenes a la imagen
 
 for index = 1:potencia
     desorden_pixel(foto, mat);
