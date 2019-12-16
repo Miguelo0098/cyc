@@ -51,15 +51,11 @@ bytes_to_add = mod(56 - bytelenmod, 64);
 if bytes_to_add == 0
     bytes_to_add = 64;
 end
-for index = 1:bytes_to_add
-    if index == 1
-        mensaje = [mensaje 128];
-        continue;
-    end
-    mensaje = [mensaje 0];
+
+if bytes_to_add ~= 0
+    mensaje = [mensaje 128 zeros(1, bytes_to_add - 1)];
+    
 end
-
-
 
 % PASO 2.2.- COMO CADA PALABRA VIENE FORMADA POR 4 BYTES, HACEMOS UNA MATRIZ DE 
 % 4 FILAS CON LOS BYTES DEL MENSAJE, ASI CADA COLUMNA SERA UNA PALABRA 
@@ -69,10 +65,11 @@ mensaje = reshape(mensaje, 4, []);
 
 % PASO 2.3.- CONVERTIMOS CADA COLUMNA A ENTEROS DE 32 BITS, little endian.
 
-mensaje = flipud(mensaje);
-len = size(mensaje);
+msg_aux = flipud(mensaje);
+len = size(msg_aux);
+mensaje = zeros(1, len(2) + 2);
 for index = 1:len(2)
-    
+    mensaje(index) = msg_aux(1,index)*2^24 + msg_aux(2,index)*2^16 + msg_aux(3,index)*2^8 + msg_aux(4,index);
 end
 
 
