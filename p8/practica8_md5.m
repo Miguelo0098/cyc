@@ -144,7 +144,10 @@ for k = 1:16:numel(mensaje)
         end
         % Convertimos f, DE VECTOR FILA DE BITS A ENTEROS DE 32-bit .
 
-
+        f = num2str(f);
+        f = bin2dec(f);
+        f = mod(f, m);
+        return;
 
         % HACEMOS LA ROTACIONES
         sc = mod(i - 1, 4) + 1;
