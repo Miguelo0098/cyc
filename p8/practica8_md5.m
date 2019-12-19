@@ -7,7 +7,7 @@
 clc
 %PASO 1.1.- ESCRIBIMOS EL MENSAJE
 
-
+mensaje = 'hola';
 
 
 % PASO 1.2.- VAMOS A TRABAJAR MODULO M=2^32
@@ -32,7 +32,7 @@ B = 'efcdab89';
 C = '98badcfe';
 D = '10325476';
 
-
+fhash = [A, B, C, D];
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -67,17 +67,46 @@ mensaje = reshape(mensaje, 4, []);
 
 msg_aux = flipud(mensaje);
 len = size(msg_aux);
-mensaje = zeros(1, len(2) + 2);
+mensaje = zeros(1, len(2));
 for index = 1:len(2)
     mensaje(index) = msg_aux(1,index)*2^24 + msg_aux(2,index)*2^16 + msg_aux(3,index)*2^8 + msg_aux(4,index);
 end
 
+mensaje = mod(mensaje, m);
+
 
 % PASO 2.4.- COMPLETAMOS CON LA LONGITUD DEL MENSAJE ORIGINAL COMO UN ENTERO 
 % DE 64 BITS __>8 bytes__>dos palabras : little endian.
-bitlen = 
 
+nbytes = mod(bytelen, 2^64);
 
+nbytes = dec2hex(nbytes);
+
+sizebytes = length(nbytes);
+
+bytes_to_add = 16 - sizebytes;
+
+if bytes_to_add ~= 0
+    for index = 1:bytes_to_add
+        nbytes = ['0' nbytes];
+    end
+end
+
+nbytes = transpose(reshape(nbytes, 2, []));
+
+nbytes = hex2dec(nbytes);
+nbytes = reshape(nbytes, 4, []);
+
+nbytes_aux = flipud(nbytes);
+len = size(nbytes_aux);
+sizebytes = zeros(1,2);
+for index = 1:len(2)
+    sizebytes(index) = nbytes_aux(1,index)*2^24 + nbytes_aux(2,index)*2^16 + nbytes_aux(3,index)*2^8 + nbytes_aux(4,index);
+end
+
+sizebytes = mod(sizebytes, m);
+
+mensaje = [mensaje sizebytes];
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -114,11 +143,9 @@ for k = 1:16:numel(mensaje)
             sr = 4;
         end
         % Convertimos f, DE VECTOR FILA DE BITS A ENTEROS DE 32-bit .
-       
-       
-       
-       
-       
+
+
+
         % HACEMOS LA ROTACIONES
         sc = mod(i - 1, 4) + 1;
         sum = mod(a + f + mensaje(k + ki) + t(i), m);
