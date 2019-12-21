@@ -15,11 +15,11 @@ m=2^32;
 
 % PASO 1.3.-  CREAMOS UNA MATRIZ S PARA HACER LA ROTACION,
 % LOS NUMEROS SON NEGATIVOS POR SER UNA ROTACION A IZQUIERDA
-s = [-7, -12, -17, -22;-5,  -9, -14, -20;-4, -11, -16, -23;-6, -10, -15, -21]
+s = [-7, -12, -17, -22;-5,  -9, -14, -20;-4, -11, -16, -23;-6, -10, -15, -21];
 
 % PASO 1.4.- t ES LA TABLA QUE USAREMOS MAS ADELANTE, para construir la funcion
 % Hash  del emnsaje
-t = fix(abs(sin(1:64)) .* m)
+t = fix(abs(sin(1:64)) .* m);
 
 % PASO 1.5.- INICIALIZAMOS LA HASH
 % MD5 utiliza las cuatro palabras siguientes:
@@ -32,14 +32,17 @@ B = 'efcdab89';
 C = '98badcfe';
 D = '10325476';
 
-fhash = [A, B, C, D];
+
+
+
+fhash = [hex2dec(A), hex2dec(B), hex2dec(C), hex2dec(D)];
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% PASO 2.- PREPARAMOS EL MENSAJE PARA APLICARLE LA HASH
 
-mensaje = abs(mensaje)
-bytelen = numel(mensaje) %numero de elementos del vector 
+mensaje = abs(mensaje);
+bytelen = numel(mensaje); %numero de elementos del vector 
 
 % PASO 2.1.- COMPLETAMOS EL MENSAJE CON UN 1 Y  LOS CEROS NECESARIOS PARA QUE EL 
 % NUMERO DE BITS SEA CONGRUENTE CON 448 MODULO 512. COMO TENEMOS BYTES, COMPLETAMOS 
@@ -147,7 +150,6 @@ for k = 1:16:numel(mensaje)
         f = num2str(f);
         f = bin2dec(f);
         f = mod(f, m);
-        return;
 
         % HACEMOS LA ROTACIONES
         sc = mod(i - 1, 4) + 1;
@@ -157,28 +159,43 @@ for k = 1:16:numel(mensaje)
         sum = bin2dec(sum);
         % ACTUALIZAMOS  a, b, c, d.
         
-        
-        
-        
-        
+        a = d;
+        d = c;
+        c = b;
+        b = sum;
         
     end
     
     % MODIFICAMOS EL HASH.
     
-
-    
+    fhash = fhash + [a, b, c, d];
+    fhash = mod(fhash, m);
     
     
 end
 
 % CONVERTIMOS HASH DE ENTEROS DE 32 BITS  , LITTLE ENDIAN, A BYTES .
 
+disp(fhash);
 
+hash = [];
 
+for index = 1:length(fhash)
+    aux = dec2bin(fhash(index), 32);
+    aux = transpose(reshape(aux, 8, []));
+    % aux = flipud(aux);
+    sizes = size(aux);
+    for index2 = 1:sizes(1)
+        hash = [hash bin2dec(aux(index2,:))];
+    end
+end
+
+disp(hash);
 
 % CONVERTIMOS HASH A HEXADECIMAL.
 
 
+hash = reshape(transpose(dec2hex(hash)),1,[]);
 
+disp(hash);
 
