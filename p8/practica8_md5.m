@@ -49,6 +49,8 @@ bytelen = numel(mensaje); %numero de elementos del vector
 % CON 128 (10000000) Y LOS CEROS NECESARIOS PARA QUE EL NUMERO DE BYTES SEA 
 % CONGRUENTE CON 56 MODULO 64
 
+
+% Rellenamos el mensaje con 128 y 0
 bytelenmod = mod(bytelen, 64);
 bytes_to_add = mod(56 - bytelenmod, 64);
 if bytes_to_add == 0
@@ -68,6 +70,7 @@ mensaje = reshape(mensaje, 4, []);
 
 % PASO 2.3.- CONVERTIMOS CADA COLUMNA A ENTEROS DE 32 BITS, little endian.
 
+% Damos la vuelta a la matriz y traducimos a enteros de 32 bits
 msg_aux = flipud(mensaje);
 len = size(msg_aux);
 mensaje = zeros(1, len(2));
@@ -87,6 +90,8 @@ nbytes = dec2hex(nbytes);
 
 sizebytes = length(nbytes);
 
+% comprobamos los ceros a añadir
+
 bytes_to_add = 16 - sizebytes;
 
 if bytes_to_add ~= 0
@@ -94,6 +99,8 @@ if bytes_to_add ~= 0
         nbytes = ['0' nbytes];
     end
 end
+
+% Traducimos a dos enteros de 32 bits y lo añadimos al final del mensaje
 
 nbytes = transpose(reshape(nbytes, 2, []));
 
@@ -176,26 +183,32 @@ end
 
 % CONVERTIMOS HASH DE ENTEROS DE 32 BITS  , LITTLE ENDIAN, A BYTES .
 
-disp(fhash);
-
 hash = [];
 
+% para cada valor en fhash
+
 for index = 1:length(fhash)
+    % traducimos a binario
     aux = dec2bin(fhash(index), 32);
+    % pasamos los grupos de 8 bits a bytes
     aux = transpose(reshape(aux, 8, []));
-    % aux = flipud(aux);
+    aux = flipud(aux);
     sizes = size(aux);
     for index2 = 1:sizes(1)
         hash = [hash bin2dec(aux(index2,:))];
     end
 end
 
-disp(hash);
-
 % CONVERTIMOS HASH A HEXADECIMAL.
-
 
 hash = reshape(transpose(dec2hex(hash)),1,[]);
 
 disp(hash);
+
+% NOTA: el resultado no coincide con algunos resultados de algoritmos MD5 en internet. 
+%       Tras probar varios reajustes, sigue sin salir el mismo hash, y puede ser debido a 
+%       la diferente interpretación de los caracteres (ASCII, UTF-8, UNICODE).
+%       
+%       A pesar de ello, la función devuelve un hash distinto para cada mensaje, aunque la diferencia
+%       sea únicamente una letra.
 
