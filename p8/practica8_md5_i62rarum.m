@@ -7,7 +7,7 @@
 clc
 %PASO 1.1.- ESCRIBIMOS EL MENSAJE
 
-mensaje = 'hola';
+mensaje = 'alma';
 
 
 % PASO 1.2.- VAMOS A TRABAJAR MODULO M=2^32
@@ -31,8 +31,6 @@ A = '67452301';
 B = 'efcdab89';
 C = '98badcfe';
 D = '10325476';
-
-
 
 
 fhash = [hex2dec(A), hex2dec(B), hex2dec(C), hex2dec(D)];
@@ -84,40 +82,15 @@ mensaje = mod(mensaje, m);
 % PASO 2.4.- COMPLETAMOS CON LA LONGITUD DEL MENSAJE ORIGINAL COMO UN ENTERO 
 % DE 64 BITS __>8 bytes__>dos palabras : little endian.
 
-nbytes = mod(bytelen, 2^64);
+nbytes = mod(bytelen * 8, 2^64);
 
-nbytes = dec2hex(nbytes);
+nbytes = dec2bin(nbytes, 64);
 
-sizebytes = length(nbytes);
+nbytes = transpose(reshape(nbytes, 32, 2));
 
-% comprobamos los ceros a añadir
+mensaje = [mensaje mod(bin2dec(nbytes(2,:)), m) mod(bin2dec(nbytes(1,:)), m)];
 
-bytes_to_add = 16 - sizebytes;
-
-if bytes_to_add ~= 0
-    for index = 1:bytes_to_add
-        nbytes = ['0' nbytes];
-    end
-end
-
-% Traducimos a dos enteros de 32 bits y lo añadimos al final del mensaje
-
-nbytes = transpose(reshape(nbytes, 2, []));
-
-nbytes = hex2dec(nbytes);
-nbytes = reshape(nbytes, 4, []);
-
-nbytes_aux = flipud(nbytes);
-len = size(nbytes_aux);
-sizebytes = zeros(1,2);
-for index = 1:len(2)
-    sizebytes(index) = nbytes_aux(1,index)*2^24 + nbytes_aux(2,index)*2^16 + nbytes_aux(3,index)*2^8 + nbytes_aux(4,index);
-end
-
-sizebytes = mod(sizebytes, m);
-
-mensaje = [mensaje sizebytes];
-
+disp(mensaje);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% PASO 3.- REALIZAMOS LA FUNCION HASH
@@ -164,6 +137,7 @@ for k = 1:16:numel(mensaje)
         sum = dec2bin(sum, 32);
         sum = circshift(sum, [0, s(sr, sc)]);
         sum = bin2dec(sum);
+        sum = mod(b + sum, m);
         % ACTUALIZAMOS  a, b, c, d.
         
         a = d;
@@ -191,12 +165,9 @@ for index = 1:length(fhash)
     % traducimos a binario
     aux = dec2bin(fhash(index), 32);
     % pasamos los grupos de 8 bits a bytes
-    aux = transpose(reshape(aux, 8, []));
+    aux = transpose(reshape(aux, 8, 4));
     aux = flipud(aux);
-    sizes = size(aux);
-    for index2 = 1:sizes(1)
-        hash = [hash bin2dec(aux(index2,:))];
-    end
+    hash = [hash bin2dec(aux(1,:)) bin2dec(aux(2,:)) bin2dec(aux(3,:)) bin2dec(aux(4,:))];
 end
 
 % CONVERTIMOS HASH A HEXADECIMAL.
@@ -205,10 +176,5 @@ hash = reshape(transpose(dec2hex(hash)),1,[]);
 
 disp(hash);
 
-% NOTA: el resultado no coincide con algunos resultados de algoritmos MD5 en internet. 
-%       Tras probar varios reajustes, sigue sin salir el mismo hash, y puede ser debido a 
-%       la diferente interpretación de los caracteres (ASCII, UTF-8, UNICODE).
-%       
-%       A pesar de ello, la función devuelve un hash distinto para cada mensaje, aunque la diferencia
-%       sea únicamente una letra.
+
 
