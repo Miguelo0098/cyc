@@ -82,15 +82,14 @@ mensaje = mod(mensaje, m);
 % PASO 2.4.- COMPLETAMOS CON LA LONGITUD DEL MENSAJE ORIGINAL COMO UN ENTERO 
 % DE 64 BITS __>8 bytes__>dos palabras : little endian.
 
-nbytes = mod(bytelen * 8, 2^64);
+num_bits = mod(bytelen * 8, 2^64);
 
-nbytes = dec2bin(nbytes, 64);
+num_bits = dec2bin(num_bits, 64);
 
-nbytes = transpose(reshape(nbytes, 32, 2));
+num_bits = transpose(reshape(num_bits, 32, 2));
 
-mensaje = [mensaje mod(bin2dec(nbytes(2,:)), m) mod(bin2dec(nbytes(1,:)), m)];
+mensaje = [mensaje mod(bin2dec(num_bits(2,:)), m) mod(bin2dec(num_bits(1,:)), m)];
 
-disp(mensaje);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% PASO 3.- REALIZAMOS LA FUNCION HASH
@@ -175,6 +174,3 @@ end
 hash = reshape(transpose(dec2hex(hash)),1,[]);
 
 disp(hash);
-
-
-
